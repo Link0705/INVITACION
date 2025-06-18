@@ -10,7 +10,6 @@
       background: #0b1f3a;
       overflow: hidden; /* Evita barras de desplazamiento si el contenido se desborda */
       font-family: 'Georgia', serif;
-      color: white;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -33,7 +32,7 @@
       font-size: 1.3em;
       max-width: 600px;
       margin: 0 30px 30px;
-      color: #cfcfcf;
+      color: #cfcfcf; /* Color predeterminado para los párrafos (gris claro) */
       z-index: 10;
       position: relative;
     }
@@ -203,8 +202,19 @@
         font-size: 1.4em; /* Tamaño de fuente aumentado */
         margin-top: 15px;
         margin-bottom: 5px;
-        color: #d4af37; /* Color dorado para información */
+        /* Se elimina 'color: #d4af37;' y 'font-weight: bold;' de aquí */
+    }
+
+    /* Nuevo estilo para las etiquetas (Fecha:, Ubicación:, Hora:, Ceremonia:) */
+    .info-label {
+        color: #d4af37; /* Dorado */
         font-weight: bold;
+    }
+
+    /* Estilo para los valores específicos que deben ser blancos y sin negrita */
+    .info-text .value-white {
+        color: white; /* Solo el valor será blanco */
+        font-weight: normal; /* Asegura que el valor no esté en negrita */
     }
 
     .quote-text {
@@ -471,16 +481,16 @@
     <p class="names-text">Mis padres Edwin Oña, Margarita Pacheco</p>
     <p class="names-text">y yo, Erika Oña,</p>
     <p class="cover-invitation-line">tenemos el honor de invitarte a celebrar un momento único y muy especial</p>
-    <button class="btn" onclick="showMainContent()">Continuar</button>
+    <button class="btn" onclick="showMainContent()">Ver Invitación</button>
   </div>
 
   <!-- Contenido de la página principal (anteriormente la primera página) -->
   <div id="main-content">
     <h1>Invitación a mi Graduación</h1>
     <p class="quote-text">"Con el azul celeste que vestí en cada paso, me despido de este rincón que fue mi refugio y mi hogar. Ven, acompáñame a abrazar juntos la nostalgia de un adiós que duele pero que también guarda la promesa de lo que fue."</p>
-    <p class="info-text">Fecha: 4 de Julio</p>
-    <p class="info-text">Ubicación: Unidad Educativa "San Vicente Ferrer"</p>
-    <p class="info-text">Hora: 5 p.m.</p>
+    <p class="info-text"><span class="info-label">Fecha:</span> <span class="value-white">4 de Julio</span></p>
+    <p class="info-text"><span class="info-label">Ubicación:</span> <span class="value-white">Unidad Educativa "San Vicente Ferrer"</span></p>
+    <p class="info-text"><span class="info-label">Hora:</span> <span class="value-white">5 p.m.</span></p>
     <p class="quote-text">"Que tu presencia sea el abrazo silencioso en este suspiro de despedida"</p>
     <button class="btn" onclick="showCeremonia()">Siguiente</button>
     <button class="btn" onclick="showCoverPage()">Volver</button>
@@ -491,9 +501,9 @@
     <div class="contenido">
       <h1>¡Estás Invitado!</h1>
       <p class="quote-text">"Con todo el amor y gratitud que habita en mi alma, te invito a la eucaristía en honor de mi graduación, un momento para honrar a Dios, mi sustento, mi refugio y la fuente de mi vida. Sin Él, este camino no habría sido posible; Su amor ha sido mi fuerza en cada paso. Ven, celebremos juntos Su infinita bondad."</p>
-      <p class="info-text">Fecha: 5 de Julio</p>
-      <p class="info-text"><strong>Ceremonia Religiosa:</strong> Iglesia San José de Shell</p>
-      <p class="info-text"><strong>Hora:</strong> 19:00 p.m.</p>
+      <p class="info-text"><span class="info-label">Fecha:</span> <span class="value-white">5 de Julio</span></p>
+      <p class="info-text"><span class="info-label">Ceremonia Iglesia:</span> <span class="value-white">Iglesia San José de Shell</span></p>
+      <p class="info-text"><span class="info-label">Hora:</span> <span class="value-white">19:00 p.m.</span></p>
       <p class="quote-text">"Unamos nuestros corazones y gratitud al Dueño de nuestro camino"</p>
 
       <button class="btn" onclick="showMainContent()">Volver</button>
@@ -506,8 +516,8 @@
     <div class="contenido">
       <h1>Celebración de la Recepción</h1>
       <p class="quote-text">"Desde lo más profundo de mi alma, quiero compartir contigo este instante tan especial. Después de revivir juntos tantos recuerdos, celebremos con alegría el fin de una etapa y la luz que trae lo que está por comenzar."</p>
-      <p class="info-text">Ubicación: El Encanto Natural</p>
-      <p class="info-text">Hora: Después de la Misa</p>
+      <p class="info-text"><span class="info-label">Ubicación:</span> <span class="value-white">Complejo turístico encanto natural de Shell</span></p>
+      <p class="info-text"><span class="info-label">Hora:</span> <span class="value-white">Después de la Misa</span></p>
       <p class="quote-text">"Este día tan especial lo quiero compartir con mis personas especiales."</p>
 
       <div id="confirmacion">
@@ -526,7 +536,7 @@
 
       <!-- Nuevo cuadro de rechazo con mensaje chistoso y link al formulario -->
       <div id="cuadroRechazo">
-        <p>¡Oh, no! ¡Mi corazón de mariposa se entristece un poquito! 🦋 Pero no te preocupes, ¡igual te quiero! Y, quién sabe, ¡quizás cambies de opinión! 😉</p>
+        <p>¡Oh, no! ¡Mi corazón de mariposa se entristece un poquito! 🦋 Pero no te preocupes, ¡igual te quiero! Y, quién sabe, ¡ quizás cambies de opinión! 😉</p>
         <p>De todos modos, ¡por favor, llena este formulario para que sepa si contar contigo para el gran día! 👇</p>
         <a href="https://forms.gle/WjyZJ4VoFDxvnGrP8" target="_blank">Haz clic aquí para llenar el formulario</a>
       </div>
@@ -593,145 +603,137 @@
   </div>
 
   <script>
-    const musica = document.getElementById('musica');
-    const btnMusica = document.getElementById('btnMusica');
-    const musicMessage = document.getElementById('musicMessage'); // Nuevo elemento
-    const coverPage = document.getElementById('cover-page'); // Nueva portada
-    const mainContent = document.getElementById('main-content');
-    const ceremoniaContent = document.getElementById('ceremonia-content');
-    const recepcionContent = document.getElementById('recepcion-content');
+    // Se declaran las variables aquí para que estén disponibles en el ámbito global del script
+    let musica, btnMusica, musicMessage, coverPage, mainContent, ceremonyContent, recepcionContent;
 
-    // Funcionalidad de control de música
-    btnMusica.addEventListener('click', () => {
-      if (musica.paused) {
-        musica.play();
-        btnMusica.textContent = '🔊'; // Altavoz con sonido
-        btnMusica.classList.remove('muted');
-      } else {
-        musica.pause();
-        btnMusica.textContent = '🔈'; // Altavoz silenciado
-        btnMusica.classList.add('muted');
-      }
-    });
-
-    // Función auxiliar para transiciones de página
-    function transitionPage(hidePage, showPage) {
-      // Paso 1: Empieza a desvanecer la página actual
-      hidePage.style.opacity = '0';
-      hidePage.style.pointerEvents = 'none';
-
-      setTimeout(() => {
-        // Paso 2: Después de desvanecerse, haz que la página actual sea completamente invisible y quítala del flujo
-        hidePage.style.visibility = 'hidden';
-        hidePage.style.display = 'none'; // Asegura que el elemento no se renderice ni ocupe espacio
-
-        // Paso 3: Prepara la siguiente página para mostrarla
-        showPage.style.display = 'flex'; // Haz que sea parte del diseño flex
-        showPage.style.visibility = 'visible';
-        // Un pequeño retraso para permitir que la visualización/visibilidad se renderice antes de la transición de opacidad
-        setTimeout(() => {
-            showPage.style.opacity = '1';
-            showPage.style.pointerEvents = 'all';
-
-            // Vuelve a activar la animación de entrada para el contenido recién mostrado
-            const contenidoDiv = showPage.querySelector('.contenido');
-            if (contenidoDiv) {
-              contenidoDiv.style.animation = 'none';
-              void contenidoDiv.offsetWidth; // Dispara el redibujo
-              contenidoDiv.style.animation = 'entradaSuave 1.2s ease-out forwards';
-            }
-
-            // Reinicia los mensajes de confirmación/rechazo si se mueve a la página de recepción
-            if (showPage === recepcionContent) {
-                document.getElementById('cuadroConfirmacion').style.display = 'none';
-                document.getElementById('cuadroRechazo').style.display = 'none'; // Asegura que el nuevo mensaje de rechazo esté oculto inicialmente
-            }
-
-        }, 50); // Pequeño retraso para consistencia visual
-      }, 700); // Coincide con la duración de la transición CSS para la opacidad
-    }
-
-    // Funciones para mostrar páginas específicas
+    // Funciones de navegación
     function showCoverPage() {
-      // Determina qué página está actualmente visible para ocultarla
-      if (mainContent.style.visibility === 'visible' && mainContent.style.opacity === '1') {
-        transitionPage(mainContent, coverPage);
-      } else if (ceremoniaContent.style.visibility === 'visible' && ceremoniaContent.style.opacity === '1') {
-        transitionPage(ceremoniaContent, coverPage);
-      } else if (recepcionContent.style.visibility === 'visible' && recepcionContent.style.opacity === '1') {
-        transitionPage(recepcionContent, coverPage);
-      }
+      transitionPage(getCurrentVisiblePage(), coverPage);
     }
 
     function showMainContent() {
-      // Determina qué página está actualmente visible para ocultarla
-      if (coverPage.style.visibility === 'visible' && coverPage.style.opacity === '1') {
-        transitionPage(coverPage, mainContent);
-      } else if (ceremoniaContent.style.visibility === 'visible' && ceremoniaContent.style.opacity === '1') {
-        transitionPage(ceremoniaContent, mainContent);
-      } else if (recepcionContent.style.visibility === 'visible' && recepcionContent.style.opacity === '1') {
-        transitionPage(recepcionContent, mainContent);
-      }
+      transitionPage(getCurrentVisiblePage(), mainContent);
     }
 
     function showCeremonia() {
-      // Determina qué página está actualmente visible para ocultarla
-      if (mainContent.style.visibility === 'visible' && mainContent.style.opacity === '1') {
-        transitionPage(mainContent, ceremoniaContent);
-      } else if (recepcionContent.style.visibility === 'visible' && recepcionContent.style.opacity === '1') {
-        transitionPage(recepcionContent, ceremoniaContent);
-      }
+      transitionPage(getCurrentVisiblePage(), ceremonyContent);
     }
 
     function showRecepcion() {
-      transitionPage(ceremoniaContent, recepcionContent);
+      transitionPage(getCurrentVisiblePage(), recepcionContent);
     }
 
-    // Asigna funciones globales para los botones HTML (importante para atributos onclick directos)
-    window.showCoverPage = showCoverPage;
-    window.showMainContent = showMainContent;
-    window.showCeremonia = showCeremonia;
-    window.showRecepcion = showRecepcion;
-    window.mostrarConfirmacion = mostrarConfirmacion;
-
-    // Adjunta el oyente de eventos al botón "Ver invitación" y configura el estado inicial en DOMContentLoaded
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const btnVerInvitacion = document.getElementById('btnVerInvitacion');
-        if (btnVerInvitacion) {
-            btnVerInvitacion.addEventListener('click', showCeremonia);
-        }
-
-        // Inicializa el estado: asegura que solo la coverPage sea visible al inicio
-        coverPage.style.display = 'flex';
-        coverPage.style.opacity = '1';
-        coverPage.style.visibility = 'visible';
-        coverPage.style.pointerEvents = 'all';
-
-        mainContent.style.display = 'none';
-        ceremoniaContent.style.display = 'none';
-        recepcionContent.style.display = 'none';
-
-        // Muestra el mensaje de música durante 20 segundos
-        musicMessage.classList.add('show');
-        setTimeout(() => {
-            musicMessage.classList.remove('show');
-        }, 20000); // 20 segundos
-    });
-
-    // Función para el botón "Sí" en la página de recepción
     function mostrarConfirmacion() {
       document.getElementById('cuadroConfirmacion').style.display = 'block';
-      document.getElementById('cuadroRechazo').style.display = 'none'; // Asegura que el mensaje de rechazo esté oculto
+      document.getElementById('cuadroRechazo').style.display = 'none';
     }
 
-    // Lógica para el botón "No" en la página de recepción - YA NO SE MUEVE
-    const btnNo = document.getElementById('btnNo');
-    // Se eliminó el oyente de eventos mouseover como se solicitó.
+    // Función auxiliar para obtener la página actualmente visible
+    function getCurrentVisiblePage() {
+        if (coverPage && coverPage.style.opacity === '1' && coverPage.style.visibility === 'visible') {
+            return coverPage;
+        }
+        if (mainContent && mainContent.style.opacity === '1' && mainContent.style.visibility === 'visible') {
+            return mainContent;
+        }
+        if (ceremonyContent && ceremonyContent.style.opacity === '1' && ceremonyContent.style.visibility === 'visible') {
+            return ceremonyContent;
+        }
+        if (recepcionContent && recepcionContent.style.opacity === '1' && recepcionContent.style.visibility === 'visible') {
+            return recepcionContent;
+        }
+        return null;
+    }
 
-    // CLICK: Maneja la visualización del nuevo mensaje de rechazo humorístico y el enlace del formulario
-    btnNo.addEventListener('click', () => {
-        document.getElementById('cuadroConfirmacion').style.display = 'none'; // Oculta la confirmación
-        document.getElementById('cuadroRechazo').style.display = 'block';    // Muestra el nuevo mensaje de rechazo humorístico
+    // Función auxiliar para transiciones de página
+    function transitionPage(hidePage, showPage) {
+      if (hidePage && hidePage !== showPage) {
+        hidePage.style.opacity = '0';
+        hidePage.style.pointerEvents = 'none';
+
+        setTimeout(() => {
+          hidePage.style.visibility = 'hidden';
+          hidePage.style.display = 'none';
+        }, 700);
+      } else if (!hidePage) {
+        showPage.style.opacity = '0';
+      }
+
+      showPage.style.display = 'flex';
+      showPage.style.visibility = 'visible';
+      showPage.style.pointerEvents = 'all';
+
+      setTimeout(() => {
+          showPage.style.opacity = '1';
+
+          const contenidoDiv = showPage.querySelector('.contenido');
+          if (contenidoDiv) {
+            contenidoDiv.style.animation = 'none';
+            void contenidoDiv.offsetWidth;
+            contenidoDiv.style.animation = 'entradaSuave 1.2s ease-out forwards';
+          }
+
+          if (showPage === recepcionContent) {
+              document.getElementById('cuadroConfirmacion').style.display = 'none';
+              document.getElementById('cuadroRechazo').style.display = 'none';
+          }
+      }, hidePage ? 600 : 50);
+    }
+
+    // Inicialización al cargar el DOM
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Asigna referencias a los elementos DOM DESPUÉS de que el DOM esté cargado
+        musica = document.getElementById('musica');
+        btnMusica = document.getElementById('btnMusica');
+        musicMessage = document.getElementById('musicMessage');
+        coverPage = document.getElementById('cover-page');
+        mainContent = document.getElementById('main-content');
+        ceremonyContent = document.getElementById('ceremonia-content');
+        recepcionContent = document.getElementById('recepcion-content');
+
+        // Configura el oyente de clic para el botón de música
+        if (btnMusica) { // Asegúrate de que el elemento existe antes de añadir el listener
+            btnMusica.addEventListener('click', () => {
+                if (musica.paused) {
+                    musica.play();
+                    btnMusica.textContent = '🔊';
+                    btnMusica.classList.remove('muted');
+                } else {
+                    musica.pause();
+                    btnMusica.textContent = '🔈';
+                    btnMusica.classList.add('muted');
+                }
+            });
+        }
+
+        // Asegura que solo la coverPage sea visible al inicio y las demás estén ocultas
+        if (coverPage) { // Asegúrate de que el elemento existe
+          coverPage.style.display = 'flex';
+          coverPage.style.opacity = '1';
+          coverPage.style.visibility = 'visible';
+          coverPage.style.pointerEvents = 'all';
+        }
+
+        if (mainContent) mainContent.style.display = 'none';
+        if (ceremonyContent) ceremonyContent.style.display = 'none';
+        if (recepcionContent) recepcionContent.style.display = 'none';
+
+        // Muestra el mensaje de música durante 20 segundos
+        if (musicMessage) { // Asegúrate de que el elemento existe
+            musicMessage.classList.add('show');
+            setTimeout(() => {
+                musicMessage.classList.remove('show');
+            }, 20000);
+        }
+        
+        // Lógica para el botón "No" en la página de recepción (asegúrate de que exista)
+        const btnNo = document.getElementById('btnNo');
+        if (btnNo) {
+            btnNo.addEventListener('click', () => {
+                document.getElementById('cuadroConfirmacion').style.display = 'none';
+                document.getElementById('cuadroRechazo').style.display = 'block';
+            });
+        }
     });
   </script>
 </body>
