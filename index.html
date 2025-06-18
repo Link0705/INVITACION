@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invitación a mi Graduación</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0b1f3a;
+      overflow: hidden; /* Evita barras de desplazamiento si el contenido se desborda */
+      font-family: 'Georgia', serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+      position: relative; /* Necesario para el posicionamiento absoluto de los hijos */
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #d4af37; /* Dorado */
+      text-shadow: 0 0 10px #d4af37;
+      margin-bottom: 0.2em;
+      z-index: 10;
+      position: relative;
+    }
+
+    p {
+      font-size: 1.3em;
+      max-width: 600px;
+      margin: 0 30px 30px;
+      color: #cfcfcf;
+      z-index: 10;
+      position: relative;
+    }
+
+    /* Estilo general de los botones */
+    button {
+      background: transparent;
+      border: 2px solid #d4af37;
+      padding: 10px 25px;
+      font-size: 1.2em;
+      color: #d4af37;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      z-index: 10;
+      position: relative;
+    }
+
+    button:hover {
+      background: #d4af37;
+      color: #0b1f3a;
+    }
+
+    /* Botón y mensaje de control de música */
+    .control-musica {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 15; /* Asegura que esté por encima de todo */
+      display: flex;
+      align-items: center;
+      gap: 10px; /* Espacio entre el botón y el mensaje */
+    }
+
+    #btnMusica {
+      background: rgba(212, 175, 55, 0.8);
+      border: 2px solid #d4af37;
+      color: #0b1f3a;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px); /* Efecto cristal esmerilado */
+    }
+
+    #btnMusica:hover {
+      background: #d4af37;
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    }
+
+    #btnMusica.muted {
+      background: rgba(128, 128, 128, 0.8);
+      border-color: #808080;
+      color: #333;
+    }
+
+    #musicMessage {
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 5px;
+        font-size: 0.9em;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        pointer-events: none; /* Permite clics a través del elemento */
+    }
+    
+    #musicMessage.show {
+        opacity: 1;
+    }
+
+    /* --- MARIPOSAS GENERALES (Fondo para todas las vistas) --- */
+    .mariposas-gif {
+      position: fixed;
+      width: 100px;
+      height: 80px;
+      pointer-events: none; /* Permite clics a través del elemento */
+      z-index: 5; /* Por debajo del contenido principal */
+      opacity: 0.9;
+    }
+
+    .mariposas-gif img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.3)); /* Resplandor suave */
+    }
+
+    /* Tamaños de mariposas */
+    .mariposa-pequena { width: 60px; height: 48px; }
+    .mariposa-mediana { width: 80px; height: 64px; }
+    .mariposa-grande { width: 120px; height: 96px; }
+
+    /* Keyframes para las animaciones generales de mariposas */
+    .gif1 { left: 10%; bottom: -100px; animation: vuelo-gif1 15s linear infinite; }
+    .gif2 { left: 60%; bottom: -100px; animation: vuelo-gif2 18s linear infinite; animation-delay: 5s; }
+    .gif3 { left: 80%; bottom: -100px; animation: vuelo-gif3 20s linear infinite; animation-delay: 10s; }
+    .gif4 { left: 30%; bottom: -100px; animation: vuelo-gif4 16s linear infinite; animation-delay: 3s; }
+    .gif5 { left: 90%; bottom: -100px; animation: vuelo-gif5 14s linear infinite; animation-delay: 8s; }
+    .gif6 { left: 5%; bottom: -100px; animation: vuelo-gif6 17s linear infinite; animation-delay: 12s; }
+    .gif7 { left: 45%; bottom: -100px; animation: vuelo-gif7 19s linear infinite; animation-delay: 6s; }
+    .gif8 { left: 70%; bottom: -100px; animation: vuelo-gif8 13s linear infinite; animation-delay: 15s; }
+    .gif9 { left: 25%; bottom: -100px; animation: vuelo-gif9 21s linear infinite; animation-delay: 9s; }
+    .gif10 { left: 95%; bottom: -100px; animation: vuelo-gif10 16s linear infinite; animation-delay: 4s; }
+    .gif11 { left: 35%; bottom: -100px; animation: vuelo-gif11 18s linear infinite; animation-delay: 11s; }
+    .gif12 { left: 55%; bottom: -100px; animation: vuelo-gif12 14s linear infinite; animation-delay: 7s; }
+    .gif13 { left: 15%; bottom: -100px; animation: vuelo-gif13 22s linear infinite; animation-delay: 13s; }
+    .gif14 { left: 85%; bottom: -100px; animation: vuelo-gif14 15s linear infinite; animation-delay: 2s; }
+    .gif15 { left: 65%; bottom: -100px; animation: vuelo-gif15 17s linear infinite; animation-delay: 16s; }
+
+    /* Estos keyframes definen las trayectorias de vuelo complejas para las mariposas */
+    @keyframes vuelo-gif1 { 0% { transform: translateX(0) translateY(0) scale(0.4) rotate(0deg); opacity: 0; } 10% { opacity: 0.9; transform: scale(0.6) rotate(5deg); } 50% { transform: translateX(-50px) translateY(-50vh) scale(1) rotate(-10deg); } 90% { opacity: 0.9; } 100% { transform: translateX(-100px) translateY(-120vh) scale(0.4) rotate(15deg); opacity: 0; } }
+    @keyframes vuelo-gif2 { 0% { transform: translateX(0) translateY(0) scale(0.4) rotate(0deg); opacity: 0; } 10% { opacity: 0.9; transform: scale(0.6) rotate(-5deg); } 30% { transform: translateX(30px) translateY(-30vh) scale(0.8) rotate(10deg); } 60% { transform: translateX(-20px) translateY(-60vh) scale(1) rotate(-8deg); } 90% { opacity: 0.9; } 100% { transform: translateX(50px) translateY(-130vh) scale(0.4) rotate(20deg); opacity: 0; } }
+    @keyframes vuelo-gif3 { 0% { transform: translateX(0) translateY(0) scale(0.4) rotate(0deg); opacity: 0; } 10% { opacity: 0.9; transform: scale(0.6) rotate(8deg); } 40% { transform: translateX(-60px) translateY(-40vh) scale(0.9) rotate(-12deg); } 70% { transform: translateX(20px) translateY(-70vh) scale(1) rotate(5deg); } 90% { opacity: 0.9; } 100% { transform: translateX(-30px) translateY(-125vh) scale(0.4) rotate(-15deg); opacity: 0; } }
+    @keyframes vuelo-gif4 { 0% { transform: translateX(0) translateY(0) scale(0.4) rotate(0deg); opacity: 0; } 10% { opacity: 0.9; transform: scale(0.7) rotate(7deg); } 45% { transform: translateX(40px) translateY(-45vh) scale(1) rotate(-7deg); } 75% { transform: translateX(-30px) translateY(-75vh) scale(0.8) rotate(9deg); } 90% { opacity: 0.9; } 100% { transform: translateX(20px) translateY(-120vh) scale(0.4) rotate(10deg); opacity: 0; } }
+    @keyframes vuelo-gif5 { 0% { transform: translateX(0) translateY(0) scale(0.5) rotate(0deg); opacity: 0; } 10% { opacity: 0.9; transform: scale(0.7) rotate(-6deg); } 50% { transform: translateX(-70px) translateY(-50vh) scale(1) rotate(15deg); } 80% { transform: translateX(30px) translateY(-80vh) scale(0.7) rotate(-10deg); } 100% { transform: translateX(-10px) translateY(-130vh) scale(0.5) rotate(0deg); opacity: 0; } }
+    @keyframes vuelo-gif6 { 0% { transform: translateX(0) translateY(0) scale(0.3) rotate(0deg); opacity: 0; } 20% { opacity: 0.9; transform: scale(0.5) rotate(-8deg); } 45% { transform: translateX(35px) translateY(-35vh) scale(0.6) rotate(12deg); } 75% { transform: translateX(-30px) translateY(-75vh) scale(0.8) rotate(-15deg); } 90% { opacity: 0.9; } 100% { transform: translateX(10px) translateY(-110vh) scale(0.3) rotate(0deg); opacity: 0; } }
+    @keyframes vuelo-gif7 { 0% { transform: translateX(0) translateY(0) scale(0.4) rotate(0deg); opacity: 0; } 15% { opacity: 0.9; transform: scale(0.7) rotate(5deg); } 40% { transform: translateX(-45px) translateY(-40vh) scale(0.9) rotate(-8deg); } 70% { transform: translateX(20px) translateY(-70vh) scale(1) rotate(10deg); } 90% { opacity: 0.9; } 100% { transform: translateX(-30px) translateY(-120vh) scale(0.4) rotate(0deg); opacity: 0; } }
+    @keyframes vuelo-gif8 { 0% { transform: translateX(0) translateY(0) scale(0.5) rotate(0deg); opacity: 0; } 10% { opacity: 0.9; transform: scale(0.6) rotate(7deg); } 30% { transform: translateX(30px) translateY(-30vh) scale(0.8) rotate(-12deg); } 60% { transform: translateX(-20px) translateY(-60vh) scale(1) rotate(8deg); } 90% { opacity: 0.9; } 100% { transform: translateX(50px) translateY(-130vh) scale(0.5) rotate(-10deg); opacity: 0; } }
+    @keyframes vuelo-gif9 { 0% { transform: translateX(0) translateY(0) scale(0.4) rotate(0deg); opacity: 0; } 10% { opacity: 0.9; transform: scale(0.7) rotate(-6deg); } 40% { transform: translateX(-60px) translateY(-40vh) scale(0.9) rotate(12deg); } 70% { transform: translateX(20px) translateY(-70vh) scale(1) rotate(-10deg); } 90% { opacity: 0.9; } 100% { transform: translateX(-30px) translateY(-120vh) scale(0.4) rotate(5deg); opacity: 0; } }
+    @keyframes vuelo-gif10 { 0% { transform: translateX(0) translateY(0) scale(0.4) rotate(0deg); opacity: 0; } 15% { opacity: 0.9; transform: scale(0.6) rotate(10deg); } 40% { transform: translateX(-45px) translateY(-40vh) scale(0.8) rotate(-7deg); } 70% { transform: translateX(25px) translateY(-70vh) scale(1) rotate(5deg); } 90% { opacity: 0.9; } 100% { transform: translateX(-20px) translateY(-130vh) scale(0.4) rotate(0deg); opacity: 0; } }
+    @keyframes vuelo-gif11 { 0% { transform: translateX(0) translateY(0) scale(0.3) rotate(0deg); opacity: 0; } 20% { opacity: 0.9; transform: scale(0.5) rotate(5deg); } 45% { transform: translateX(40px) translateY(-35vh) scale(0.7) rotate(-10deg); } 75% { transform: translateX(-20px) translateY(-75vh) scale(0.9) rotate(12deg); } 90% { opacity: 0.9; } 100% { transform: translateX(10px) translateY(-110vh) scale(0.3) rotate(0deg); opacity: 0; } }
+    @keyframes vuelo-gif12 { 0% { transform: translateX(0) translateY(0) scale(0.4) rotate(0deg); opacity: 0; } 15% { opacity: 0.9; transform: scale(0.6) rotate(-5deg); } 40% { transform: translateX(-50px) translateY(-40vh) scale(0.9) rotate(10deg); } 70% { transform: translateX(20px) translateY(-70vh) scale(1) rotate(-8deg); } 90% { opacity: 0.9; } 100% { transform: translateX(-30px) translateY(-125vh) scale(0.4) rotate(15deg); opacity: 0; } }
+    @keyframes vuelo-gif13 { 0% { transform: translateX(0) translateY(0) scale(0.5) rotate(0deg); opacity: 0; } 10% { opacity: 0.9; transform: scale(0.7) rotate(8deg); } 40% { transform: translateX(-60px) translateY(-45vh) scale(1) rotate(-12deg); } 70% { transform: translateX(20px) translateY(-75vh) scale(0.9) rotate(5deg); } 90% { opacity: 0.9; } 100% { transform: translateX(-30px) translateY(-120vh) scale(0.5) rotate(-15deg); opacity: 0; } }
+    @keyframes vuelo-gif14 { 0% { transform: translateX(0) translateY(0) scale(0.3) rotate(0deg); opacity: 0; } 20% { opacity: 0.9; transform: scale(0.5) rotate(10deg); } 45% { transform: translateX(35px) translateY(-35vh) scale(0.6) rotate(-8deg); } 75% { transform: translateX(-30px) translateY(-75vh) scale(0.8) rotate(15deg); } 90% { opacity: 0.9; } 100% { transform: translateX(10px) translateY(-110vh) scale(0.3) rotate(0deg); opacity: 0; } }
+    @keyframes vuelo-gif15 { 0% { transform: translateX(0) translateY(0) scale(0.4) rotate(0deg); opacity: 0; } 15% { opacity: 0.9; transform: scale(0.6) rotate(-7deg); } 40% { transform: translateX(-45px) translateY(-40vh) scale(0.8) rotate(9deg); } 70% { transform: translateX(25px) translateY(-70vh) scale(1) rotate(-5deg); } 90% { opacity: 0.9; } 100% { transform: translateX(-20px) translateY(-130vh) scale(0.4) rotate(10deg); opacity: 0; } }
+
+    /* Estilos para las secciones de contenido y transiciones */
+    #cover-page, #main-content, #ceremonia-content, #recepcion-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0b1f3a; /* Coincide con el fondo del body */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      transition: opacity 0.7s ease-in-out, visibility 0.7s ease-in-out; /* Transición suave */
+    }
+
+    /* Estado inicial para las páginas: cover-page visible, las demás ocultas */
+    #cover-page {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+    }
+
+    #main-content, #ceremonia-content, #recepcion-content {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      display: none; /* Crucial: asegura que no ocupen espacio cuando están ocultas */
+    }
+
+    /* Estilos comunes para textos de información y citas */
+    .info-text {
+        font-size: 1.4em; /* Tamaño de fuente aumentado */
+        margin-top: 15px;
+        margin-bottom: 5px;
+        color: #d4af37; /* Color dorado para información */
+        font-weight: bold;
+    }
+
+    .quote-text {
+        font-style: italic;
+        margin-top: 20px;
+        margin-bottom: 25px;
+        max-width: 700px;
+        color: #cfcfcf;
+        line-height: 1.5;
+    }
+
+    /* Estilos específicos para elementos dentro de las secciones de contenido */
+    #ceremonia-content h1,
+    #recepcion-content h1 {
+      font-size: 2.8em;
+      margin-bottom: 15px;
+      color: #d4af37; /* Color dorado para los H1 de estas páginas */
+    }
+
+    /* Estilos para la nueva portada */
+    #cover-page h1 {
+      font-size: 4em; /* Título principal más grande */
+      color: #d4af37;
+      text-shadow: 0 0 20px #d4af37; /* Sombra más pronunciada */
+      letter-spacing: 5px; /* Espaciado entre letras para un efecto más elegante */
+      margin-bottom: 0.4em;
+      animation: fadeInScale 2s ease-out forwards; /* Animación de entrada */
+    }
+
+    #cover-page .cover-quote-text {
+        font-style: italic;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        max-width: 700px;
+        color: #cfcfcf;
+        line-height: 1.5;
+        font-size: 1.4em;
+        animation: fadeIn 2.5s ease-out forwards 0.7s; /* Animación con retraso */
+        opacity: 0;
+    }
+
+    #cover-page .cover-bold-intro {
+        font-weight: bold;
+        color: #cfcfcf;
+        margin-top: 15px;
+        font-size: 1.3em;
+        animation: fadeIn 2.5s ease-out forwards 1.2s; /* Animación con retraso */
+        opacity: 0;
+    }
+
+    #cover-page .names-text {
+        font-size: 1.8em; /* Tamaño de fuente para los nombres en la portada */
+        color: #d4af37; /* Color dorado para los nombres */
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        animation: fadeIn 2.5s ease-out forwards 1.7s; /* Animación con retraso */
+        opacity: 0; /* Inicia oculto para la animación */
+    }
+
+    #cover-page .cover-invitation-line {
+        font-size: 1.5em; /* Tamaño de fuente para el texto introductorio en la portada */
+        color: #cfcfcf;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        max-width: 700px;
+        animation: fadeIn 2.5s ease-out forwards 2.7s; /* Animación con más retraso */
+        opacity: 0; /* Inicia oculto para la animación */
+    }
+
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #ceremonia-content p,
+    #recepcion-content p {
+      max-width: 700px;
+      margin: 10px;
+      color: #e0e0e0;
+    }
+
+    /* Estilos para botones generales dentro de las páginas de contenido */
+    #ceremonia-content .btn,
+    #recepcion-content .btn,
+    #main-content .btn, /* Asegura el estilo para los botones del contenido principal */
+    #cover-page .btn { /* Estilo para el botón de la portada */
+      margin-top: 30px; /* Ajusta el espaciado para múltiples botones */
+      padding: 12px 25px;
+      background: transparent;
+      border: 2px solid #ccc;
+      color: #ccc;
+      text-decoration: none;
+      font-size: 1.1em;
+      border-radius: 10px;
+      transition: 0.3s;
+      position: relative;
+      margin-left: 10px;
+      margin-right: 10px;
+      animation: fadeIn 2.5s ease-out forwards 3.2s; /* Animación con retraso */
+      opacity: 0; /* Inicia oculto para la animación */
+    }
+
+    #ceremonia-content .btn:hover,
+    #recepcion-content .btn:hover,
+    #main-content .btn:hover,
+    #cover-page .btn:hover {
+      background: #d4af37;
+      color: #0b1f3a;
+      border-color: #d4af37;
+    }
+
+    /* Animación para la entrada de contenido (se aplica a .contenido cuando se muestra) */
+    .contenido {
+      opacity: 0;
+      transform: translateY(40px);
+      animation: entradaSuave 1.2s ease-out forwards;
+    }
+
+    @keyframes entradaSuave {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Estilos para la sección de confirmación en la página de recepción */
+    #recepcion-content #confirmacion {
+      margin-top: 40px;
+      position: relative;
+      height: 200px; /* Le da una altura definida para el posicionamiento absoluto de los elementos hijos */
+      width: 100%;
+      max-width: 600px; /* Limita el ancho para mantenerlo ordenado */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #recepcion-content #confirmacion h2 {
+      color: #d4af37;
+    }
+
+    #recepcion-content #confirmacion button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    #recepcion-content #confirmacion button:first-of-type { /* Botón 'Sí' */
+      background: #d4af37;
+      color: #0b1f3a;
+    }
+
+    #recepcion-content #btnNo {
+      background: #999;
+      color: white;
+      position: relative; /* Por defecto a relativo para permanecer en el flujo normal */
+      margin-top: 10px; /* Añade un margen para separar del botón Sí */
+    }
+
+    /* Estilos para mensajes de confirmación/rechazo */
+    #recepcion-content #cuadroConfirmacion,
+    #recepcion-content #cuadroRechazo {
+      display: none; /* Oculto por defecto */
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 90%; /* Ancho responsivo */
+    }
+
+    #recepcion-content #cuadroConfirmacion {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid #d4af37;
+    }
+
+    #recepcion-content #cuadroConfirmacion p {
+      color: #fff;
+    }
+
+    #recepcion-content #cuadroConfirmacion a {
+      color: #d4af37;
+      text-decoration: underline;
+    }
+
+    #recepcion-content #cuadroRechazo {
+      background: rgba(255,255,255,0.1); /* Fondo consistente con la confirmación */
+      border: 2px solid #d4af37; /* Borde consistente */
+      color: #fff; /* Asegura que el texto sea visible */
+    }
+    #recepcion-content #cuadroRechazo p,
+    #recepcion-content #cuadroRechazo a {
+        color: #fff; /* Asegura que el color del texto sea blanco para legibilidad */
+    }
+    #recepcion-content #cuadroRechazo a {
+        text-decoration: underline;
+    }
+
+
+    /* Media Queries para la adaptabilidad móvil */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.2em; /* Tamaño de fuente más pequeño para el título principal en móvil */
+      }
+      p {
+        font-size: 1em; /* Tamaño de fuente más pequeño para los párrafos en móvil */
+        margin: 0 15px 20px; /* Ajusta los márgenes para pantallas más pequeñas */
+      }
+      button {
+        padding: 8px 20px;
+        font-size: 1em;
+      }
+
+      #ceremonia-content h1,
+      #recepcion-content h1 {
+        font-size: 2em; /* Tamaño de fuente más pequeño para el título de invitación/recepción en móvil */
+      }
+      #ceremonia-content p,
+      #recepcion-content p {
+        font-size: 0.95em; /* Ligeramente más pequeño para los párrafos de invitación */
+        margin: 5px;
+      }
+      #recepcion-content #confirmacion {
+        height: 150px; /* Ajusta la altura para móvil */
+      }
+      .info-text { /* Específicamente para el texto de información en móvil - tamaño ajustado */
+        font-size: 1.2em; /* Asegura que sea más grande que otros párrafos móviles */
+      }
+      #cover-page h1 {
+        font-size: 2.8em; /* Ajuste para móviles */
+        letter-spacing: 2px;
+      }
+      #cover-page .cover-quote-text {
+        font-size: 1.2em; /* Ajuste para móviles */
+      }
+      #cover-page .cover-bold-intro {
+        font-size: 1em; /* Ajuste para móviles */
+      }
+      #cover-page .names-text {
+        font-size: 1.5em; /* Ajuste para móviles */
+      }
+      #cover-page .cover-invitation-line {
+        font-size: 1.2em; /* Ajuste para móviles */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Nueva Portada -->
+  <div id="cover-page">
+    <h1>¡Mi graduación!</h1>
+    <p class="cover-quote-text">"Un ciclo termina, y con él comienza una nueva historia..."</p>
+    <p class="cover-bold-intro">Con inmensa alegría,</p>
+    <p class="names-text">Mis padres Edwin Oña, Margarita Pacheco</p>
+    <p class="names-text">y yo, Erika Oña,</p>
+    <p class="cover-invitation-line">tenemos el honor de invitarte a celebrar un momento único y muy especial</p>
+    <button class="btn" onclick="showMainContent()">Continuar</button>
+  </div>
+
+  <!-- Contenido de la página principal (anteriormente la primera página) -->
+  <div id="main-content">
+    <h1>Invitación a mi Graduación</h1>
+    <p class="quote-text">"Con el azul celeste que vestí en cada paso, me despido de este rincón que fue mi refugio y mi hogar. Ven, acompáñame a abrazar juntos la nostalgia de un adiós que duele pero que también guarda la promesa de lo que fue."</p>
+    <p class="info-text">Fecha: 4 de Julio</p>
+    <p class="info-text">Ubicación: Unidad Educativa "San Vicente Ferrer"</p>
+    <p class="info-text">Hora: 5 p.m.</p>
+    <p class="quote-text">"Que tu presencia sea el abrazo silencioso en este suspiro de despedida"</p>
+    <button class="btn" onclick="showCeremonia()">Siguiente</button>
+    <button class="btn" onclick="showCoverPage()">Volver</button>
+  </div>
+
+  <!-- Contenido de la página de Eucaristía/Ceremonia -->
+  <div id="ceremonia-content">
+    <div class="contenido">
+      <h1>¡Estás Invitado!</h1>
+      <p class="quote-text">"Con todo el amor y gratitud que habita en mi alma, te invito a la eucaristía en honor de mi graduación, un momento para honrar a Dios, mi sustento, mi refugio y la fuente de mi vida. Sin Él, este camino no habría sido posible; Su amor ha sido mi fuerza en cada paso. Ven, celebremos juntos Su infinita bondad."</p>
+      <p class="info-text">Fecha: 5 de Julio</p>
+      <p class="info-text"><strong>Ceremonia Religiosa:</strong> Iglesia San José de Shell</p>
+      <p class="info-text"><strong>Hora:</strong> 19:00 p.m.</p>
+      <p class="quote-text">"Unamos nuestros corazones y gratitud al Dueño de nuestro camino"</p>
+
+      <button class="btn" onclick="showMainContent()">Volver</button>
+      <button class="btn" onclick="showRecepcion()">Siguiente</button>
+    </div>
+  </div>
+
+  <!-- Contenido de la página de Recepción y Confirmación -->
+  <div id="recepcion-content">
+    <div class="contenido">
+      <h1>Celebración de la Recepción</h1>
+      <p class="quote-text">"Desde lo más profundo de mi alma, quiero compartir contigo este instante tan especial. Después de revivir juntos tantos recuerdos, celebremos con alegría el fin de una etapa y la luz que trae lo que está por comenzar."</p>
+      <p class="info-text">Ubicación: El Encanto Natural</p>
+      <p class="info-text">Hora: Después de la Misa</p>
+      <p class="quote-text">"Este día tan especial lo quiero compartir con mis personas especiales."</p>
+
+      <div id="confirmacion">
+        <h2>¿Vas a asistir a mi graduación?</h2>
+
+        <button onclick="mostrarConfirmacion()">Sí</button>
+
+        <!-- El botón "No" ahora no se mueve y se posiciona estáticamente -->
+        <button id="btnNo">No</button>
+      </div>
+
+      <div id="cuadroConfirmacion">
+        <p>¡Me alegra que vayas a venir! 🎉</p>
+        <a id="linkConfirmar" href="https://forms.gle/WjyZJ4VoFDxvnGrP8" target="_blank">Haz clic aquí para confirmar tu asistencia</a>
+      </div>
+
+      <!-- Nuevo cuadro de rechazo con mensaje chistoso y link al formulario -->
+      <div id="cuadroRechazo">
+        <p>¡Oh, no! ¡Mi corazón de mariposa se entristece un poquito! 🦋 Pero no te preocupes, ¡igual te quiero! Y, quién sabe, ¡quizás cambies de opinión! 😉</p>
+        <p>De todos modos, ¡por favor, llena este formulario para que sepa si contar contigo para el gran día! 👇</p>
+        <a href="https://forms.gle/WjyZJ4VoFDxvnGrP8" target="_blank">Haz clic aquí para llenar el formulario</a>
+      </div>
+
+      <button class="btn" onclick="showCeremonia()">Volver</button>
+    </div>
+  </div>
+
+  <!-- Control de música (siempre visible) -->
+  <div class="control-musica">
+    <span id="musicMessage">No olvides dar click aquí para escuchar</span>
+    <button id="btnMusica" title="Reproducir / Pausar música">🔈</button>
+  </div>
+  <audio id="musica" loop>
+    <source src="mil.mp3" type="audio/mpeg" />
+    Tu navegador no soporta el elemento de audio.
+  </audio>
+
+  <!-- Mariposas de fondo (siempre visibles, para la página principal) -->
+  <div class="mariposas-gif gif1 mariposa-pequena">
+    <img src="fly.gif" alt="Mariposa 1" />
+  </div>
+  <div class="mariposas-gif gif2 mariposa-mediana">
+    <img src="fly.gif" alt="Mariposa 2" />
+  </div>
+  <div class="mariposas-gif gif3 mariposa-pequena">
+    <img src="fly.gif" alt="Mariposa 3" />
+  </div>
+  <div class="mariposas-gif gif4 mariposa-grande">
+    <img src="fly.gif" alt="Mariposa 4" />
+  </div>
+  <div class="mariposas-gif gif5 mariposa-pequena">
+    <img src="fly.gif" alt="Mariposa 5" />
+  </div>
+  <div class="mariposas-gif gif6 mariposa-mediana">
+    <img src="fly.gif" alt="Mariposa 6" />
+  </div>
+  <div class="mariposas-gif gif7 mariposa-pequena">
+    <img src="fly.gif" alt="Mariposa 7" />
+  </div>
+  <div class="mariposas-gif gif8 mariposa-mediana">
+    <img src="fly.gif" alt="Mariposa 8" />
+  </div>
+  <div class="mariposas-gif gif9 mariposa-pequena">
+    <img src="fly.gif" alt="Mariposa 9" />
+  </div>
+  <div class="mariposas-gif gif10 mariposa-grande">
+    <img src="fly.gif" alt="Mariposa 10" />
+  </div>
+  <div class="mariposas-gif gif11 mariposa-pequena">
+    <img src="fly.gif" alt="Mariposa 11" />
+  </div>
+  <div class="mariposas-gif gif12 mariposa-mediana">
+    <img src="fly.gif" alt="Mariposa 12" />
+  </div>
+  <div class="mariposas-gif gif13 mariposa-pequena">
+    <img src="fly.gif" alt="Mariposa 13" />
+  </div>
+  <div class="mariposas-gif gif14 mariposa-mediana">
+    <img src="fly.gif" alt="Mariposa 14" />
+  </div>
+  <div class="mariposas-gif gif15 mariposa-pequena">
+    <img src="fly.gif" alt="Mariposa 15" />
+  </div>
+
+  <script>
+    const musica = document.getElementById('musica');
+    const btnMusica = document.getElementById('btnMusica');
+    const musicMessage = document.getElementById('musicMessage'); // Nuevo elemento
+    const coverPage = document.getElementById('cover-page'); // Nueva portada
+    const mainContent = document.getElementById('main-content');
+    const ceremoniaContent = document.getElementById('ceremonia-content');
+    const recepcionContent = document.getElementById('recepcion-content');
+
+    // Funcionalidad de control de música
+    btnMusica.addEventListener('click', () => {
+      if (musica.paused) {
+        musica.play();
+        btnMusica.textContent = '🔊'; // Altavoz con sonido
+        btnMusica.classList.remove('muted');
+      } else {
+        musica.pause();
+        btnMusica.textContent = '🔈'; // Altavoz silenciado
+        btnMusica.classList.add('muted');
+      }
+    });
+
+    // Función auxiliar para transiciones de página
+    function transitionPage(hidePage, showPage) {
+      // Paso 1: Empieza a desvanecer la página actual
+      hidePage.style.opacity = '0';
+      hidePage.style.pointerEvents = 'none';
+
+      setTimeout(() => {
+        // Paso 2: Después de desvanecerse, haz que la página actual sea completamente invisible y quítala del flujo
+        hidePage.style.visibility = 'hidden';
+        hidePage.style.display = 'none'; // Asegura que el elemento no se renderice ni ocupe espacio
+
+        // Paso 3: Prepara la siguiente página para mostrarla
+        showPage.style.display = 'flex'; // Haz que sea parte del diseño flex
+        showPage.style.visibility = 'visible';
+        // Un pequeño retraso para permitir que la visualización/visibilidad se renderice antes de la transición de opacidad
+        setTimeout(() => {
+            showPage.style.opacity = '1';
+            showPage.style.pointerEvents = 'all';
+
+            // Vuelve a activar la animación de entrada para el contenido recién mostrado
+            const contenidoDiv = showPage.querySelector('.contenido');
+            if (contenidoDiv) {
+              contenidoDiv.style.animation = 'none';
+              void contenidoDiv.offsetWidth; // Dispara el redibujo
+              contenidoDiv.style.animation = 'entradaSuave 1.2s ease-out forwards';
+            }
+
+            // Reinicia los mensajes de confirmación/rechazo si se mueve a la página de recepción
+            if (showPage === recepcionContent) {
+                document.getElementById('cuadroConfirmacion').style.display = 'none';
+                document.getElementById('cuadroRechazo').style.display = 'none'; // Asegura que el nuevo mensaje de rechazo esté oculto inicialmente
+            }
+
+        }, 50); // Pequeño retraso para consistencia visual
+      }, 700); // Coincide con la duración de la transición CSS para la opacidad
+    }
+
+    // Funciones para mostrar páginas específicas
+    function showCoverPage() {
+      // Determina qué página está actualmente visible para ocultarla
+      if (mainContent.style.visibility === 'visible' && mainContent.style.opacity === '1') {
+        transitionPage(mainContent, coverPage);
+      } else if (ceremoniaContent.style.visibility === 'visible' && ceremoniaContent.style.opacity === '1') {
+        transitionPage(ceremoniaContent, coverPage);
+      } else if (recepcionContent.style.visibility === 'visible' && recepcionContent.style.opacity === '1') {
+        transitionPage(recepcionContent, coverPage);
+      }
+    }
+
+    function showMainContent() {
+      // Determina qué página está actualmente visible para ocultarla
+      if (coverPage.style.visibility === 'visible' && coverPage.style.opacity === '1') {
+        transitionPage(coverPage, mainContent);
+      } else if (ceremoniaContent.style.visibility === 'visible' && ceremoniaContent.style.opacity === '1') {
+        transitionPage(ceremoniaContent, mainContent);
+      } else if (recepcionContent.style.visibility === 'visible' && recepcionContent.style.opacity === '1') {
+        transitionPage(recepcionContent, mainContent);
+      }
+    }
+
+    function showCeremonia() {
+      // Determina qué página está actualmente visible para ocultarla
+      if (mainContent.style.visibility === 'visible' && mainContent.style.opacity === '1') {
+        transitionPage(mainContent, ceremoniaContent);
+      } else if (recepcionContent.style.visibility === 'visible' && recepcionContent.style.opacity === '1') {
+        transitionPage(recepcionContent, ceremoniaContent);
+      }
+    }
+
+    function showRecepcion() {
+      transitionPage(ceremoniaContent, recepcionContent);
+    }
+
+    // Asigna funciones globales para los botones HTML (importante para atributos onclick directos)
+    window.showCoverPage = showCoverPage;
+    window.showMainContent = showMainContent;
+    window.showCeremonia = showCeremonia;
+    window.showRecepcion = showRecepcion;
+    window.mostrarConfirmacion = mostrarConfirmacion;
+
+    // Adjunta el oyente de eventos al botón "Ver invitación" y configura el estado inicial en DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const btnVerInvitacion = document.getElementById('btnVerInvitacion');
+        if (btnVerInvitacion) {
+            btnVerInvitacion.addEventListener('click', showCeremonia);
+        }
+
+        // Inicializa el estado: asegura que solo la coverPage sea visible al inicio
+        coverPage.style.display = 'flex';
+        coverPage.style.opacity = '1';
+        coverPage.style.visibility = 'visible';
+        coverPage.style.pointerEvents = 'all';
+
+        mainContent.style.display = 'none';
+        ceremoniaContent.style.display = 'none';
+        recepcionContent.style.display = 'none';
+
+        // Muestra el mensaje de música durante 20 segundos
+        musicMessage.classList.add('show');
+        setTimeout(() => {
+            musicMessage.classList.remove('show');
+        }, 20000); // 20 segundos
+    });
+
+    // Función para el botón "Sí" en la página de recepción
+    function mostrarConfirmacion() {
+      document.getElementById('cuadroConfirmacion').style.display = 'block';
+      document.getElementById('cuadroRechazo').style.display = 'none'; // Asegura que el mensaje de rechazo esté oculto
+    }
+
+    // Lógica para el botón "No" en la página de recepción - YA NO SE MUEVE
+    const btnNo = document.getElementById('btnNo');
+    // Se eliminó el oyente de eventos mouseover como se solicitó.
+
+    // CLICK: Maneja la visualización del nuevo mensaje de rechazo humorístico y el enlace del formulario
+    btnNo.addEventListener('click', () => {
+        document.getElementById('cuadroConfirmacion').style.display = 'none'; // Oculta la confirmación
+        document.getElementById('cuadroRechazo').style.display = 'block';    // Muestra el nuevo mensaje de rechazo humorístico
+    });
+  </script>
+</body>
+</html>
